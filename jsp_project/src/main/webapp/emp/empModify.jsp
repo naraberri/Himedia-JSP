@@ -6,13 +6,25 @@
 <%@ include file="../include/oracleCon.jsp" %>
 
 <%
-String sql1 = "select max(empno)+1 as empno from emp";
+String empno = request.getParameter("empno");
+
+String sql1 = "select ename,job,nvl(mgr,'0') as mgr,sal,comm,deptno,to_char(hiredate,'yyyy-mm-dd') as hiredate "
+			+ " from emp "
+			+ " where empno='"+empno+"'";
 Statement stmt1 = con.createStatement();
 ResultSet rs1 = stmt1.executeQuery(sql1);
 rs1.next();
-String n_empno = rs1.getString("empno");
 
-String sql2 = "select title as title from emp";
+String ename = rs1.getString("ename");
+String job = rs1.getString("job");
+String mgr = rs1.getString("mgr");
+String sal = rs1.getString("sal");
+String comm = rs1.getString("comm");
+String deptno = rs1.getString("deptno");
+String hiredate = rs1.getString("hiredate");
+
+
+String sql2 = "select distinct(job) as job from emp";
 Statement stmt2 = con.createStatement();
 ResultSet rs2 = stmt2.executeQuery(sql2);
 
@@ -25,14 +37,13 @@ String sql4 = "select deptno,dname from dept order by dname";
 Statement stmt4 = con.createStatement();
 ResultSet rs4 = stmt4.executeQuery(sql4);
 %>
-    
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사원등록</title>
+<title>Insert title here</title>
 </head>
-
 <style>
 body{
    font-size:12px;
@@ -52,7 +63,7 @@ th, td{
 </style>
 
 <body>
-<form name="frm" method="post" action="empWriteSave.jsp">
+<form name="frm" method="post" action="empModifySave.jsp">
 <table>
 	<colgroup>
 		<col width="25%"/>
@@ -60,28 +71,32 @@ th, td{
 	</colgroup>
 	<tr>
 		<th>사원번호</th>
-		<td><input type="text" name="empno" value="<%=n_empno%>" readonly></td>
+		<td><input type="text" name="empno" value="<%=empno%>" readonly></td>
 	</tr>
 	<tr>
 		<th>사원이름</th>
-		<td><input type="text" name="ename"></td>
+		<td><input type="text" name="ename" value="<%=ename%>"></td>
 	</tr>
 	<tr>
 		<th>급여</th>
-		<td><input type="number" name="sal"></td>
+		<td><input type="number" name="sal" value="<%=sal%>" ></td>
 	</tr>
 	<tr>
 		<th>입사일</th>
-		<td><input type="date" name="hiredate"></td>
+		<td><input type="date" name="hiredate" value="<%=hiredate%>"></td>
 	</tr>	
 	<tr>
 		<th>업무</th>	
 		<td><select name="job">
 		<%
 		while(rs2.next()){
-			String job = rs2.getString("job");
+			String job2 = rs2.getString("job");
 		%>
-				<option value="<%=job%>"><%=job%></option>
+				<option value="<%=job2%>"
+				<%
+				if( job.equals(job2) ){ out.print("selected"); }
+				%>				
+				><%=job2%></option>
 		<%
 		}
 		%>		
@@ -93,10 +108,17 @@ th, td{
 		<td><select name="mgr">
 		<%
 		while(rs3.next()){
-			String empno = rs3.getString("empno");
-			String ename = rs3.getString("ename");
+			String empno3 = rs3.getString("empno");
+			String ename3 = rs3.getString("ename");
 		%>
-				<option value="<%=empno%>"><%=ename%></option>
+				<option value="<%=empno3%>"
+				<%
+				if( mgr.equals(empno3) ){ out.print("selected"); }else if (mgr.equals("0")){
+					out.print("selected disabled");
+				}
+				%>
+				
+				><%=ename3%></option>
 		<%
 		}
 		%>
@@ -105,17 +127,21 @@ th, td{
 	</tr>	
 	<tr>
 		<th>커미션</th>
-		<td><input type="number" name="comm"></td>
+		<td><input type="number" name="comm" value="<%=comm%>"></td>
 	</tr>	
 	<tr>
 		<th>부서</th>
 		<td><select name="deptno">
 		<%
 		while(rs4.next()){
-			String deptno = rs4.getString("deptno");
+			String deptno4 = rs4.getString("deptno");
 			String dname = rs4.getString("dname");
 		%>
-			<option value="<%=deptno%>"><%=dname%></option>
+			<option value="<%=deptno4%>"
+			<%
+			if( deptno.equals(deptno4)){ out.print("selected"); }
+			%>
+			><%=dname%></option>
 		<%
 		}
 		%>

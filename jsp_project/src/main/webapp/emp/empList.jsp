@@ -45,6 +45,14 @@ ResultSet rs =stmt.executeQuery(sql);
 <title>사원 목록</title>
 </head>
 
+<script>
+function fn_delete(empno) {
+	if( confirm("정말 삭제하시겠습니까?") ){
+		location="empDelete.jsp?empno="+empno;
+	}
+}
+</script>
+
 <style>
 body{
    font-size:12px;
@@ -109,11 +117,11 @@ th, td{
    %>
    <tr>
       <td><%=number %></td>
-      <td><%=empno %></td>
+      <td><a href="empModify.jsp?empno= <%=empno %>"><%=empno %></a></td>
       <td><%=ename %></td>
       <td><%=dname %></td>
       <td><%=hiredate %></td>
-      <td><button type="button">삭제</button></td>
+      <td><button type="button" onclick="fn_delete('<%=empno%>')">삭제</button></td>
    </tr>
 
 <%    

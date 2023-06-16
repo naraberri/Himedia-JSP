@@ -34,8 +34,9 @@ if( empno == null || empno.equals("") ||
 
 <%
 String sql1 = " select count(*) cnt from emp "
-			+ " where from empno='"+empno+"'";
+			+ " where empno='"+empno+"'";
 ResultSet rs1 = stmt.executeQuery(sql1);
+out.print(sql1);
 rs1.next();
 int cnt = rs1.getInt("cnt");
 if( cnt > 0 ){
