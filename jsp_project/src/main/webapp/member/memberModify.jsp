@@ -75,6 +75,10 @@ td{ text-align:left;}
 
 </style>
 <script>
+function fn_passChange() {
+	var url = "passChange.jsp"
+	window.open(url,"passChange","width=400,height=300")
+}
 
 function fn_submit(){
    var f = document.frm
@@ -106,8 +110,6 @@ function fn_submit(){
    
 }
 </script>
-
-
 
 <body>
 <div class="wrap">
@@ -144,7 +146,7 @@ function fn_submit(){
    <tr>
       <td>*암호</td>
       <td>
-         <button type = "button">암호변경</button>
+         <button type = "button" onclick="fn_passChange()">암호변경</button>
       </td>
    </tr>
    <tr>

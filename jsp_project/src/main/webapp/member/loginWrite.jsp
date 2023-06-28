@@ -1,5 +1,15 @@
+<%@page import="conn.Cookies"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%
+Cookies cookies = new Cookies(request);
+String cookie_id = cookies.getValue("CookieUserId");
+if( cookie_id == null ) {
+	cookie_id = "";
+}
+%>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -49,11 +59,19 @@ function fn_submit() {
 <table style="width:400px;">
 	<tr>
 		<th>아이디</th>
-		<td><input type="text" name="userid"></td>
+		<td><input type="text" name="userid" value="<%=cookie_id %>"></td>
 	</tr>
 	<tr>
 		<th>암호</th>
 		<td><input type="password" name="userpw"></td>
+	</tr>
+	<tr>
+		<th colspan="2">
+			<input type="checkbox" name="chk" value="1"
+			<%if( !cookie_id.equals("")){ out.print("checked"); } %>
+			>
+			아이디 기억하기
+		</th>
 	</tr>
 </table>
 <div style="width:400px;text-align:center;margin-top:10px;">

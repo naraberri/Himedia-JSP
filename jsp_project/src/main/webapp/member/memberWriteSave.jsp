@@ -100,7 +100,7 @@ if (result == 1) {
 %>
    <script>
       alert("회원가입완료");
-      location = "/main/main.jsp";
+      location = "../main/main.jsp";
    </script>
 <%
 }else{
